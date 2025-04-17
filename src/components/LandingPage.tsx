@@ -1,9 +1,7 @@
 "use client"
 import React, { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Check, Rocket, Phone, User } from "lucide-react";
+import { Check, Phone, User } from "lucide-react";
 import Image from "next/image";
 
 const rotatingPhrases = [
@@ -18,7 +16,6 @@ export default function LandingPage() {
   const [phone, setPhone] = useState("");
   const [firstName, setFirstName] = useState("");
   const [error, setError] = useState("");
-  const [currentPhrase, setCurrentPhrase] = useState("");
   const [displayedText, setDisplayedText] = useState("");
   const [letterIndex, setLetterIndex] = useState(0);
   const [deleting, setDeleting] = useState(false);
@@ -49,14 +46,14 @@ export default function LandingPage() {
   }, [letterIndex, deleting, phraseIndex]);
 
   // Fonction pour valider le format du numéro de téléphone
-  const isValidPhoneFormat = (value: any) => {
+  const isValidPhoneFormat = (value: string) => {
     if (!value) return null; // Si vide, pas de validation
     const regex = /^\d{9}$/;
     return regex.test(value);
   };
 
   // Fonction pour formater le numéro avec des espaces
-  const formatPhoneNumber = (value: any) => {
+  const formatPhoneNumber = (value: string) => {
     // Divise en groupes de 2 chiffres
     let formattedNumber = "";
     for (let i = 0; i < value.length; i++) {
@@ -70,7 +67,7 @@ export default function LandingPage() {
     return formattedNumber;
   };
 
-  const validatePhone = (value: any) => {
+  const validatePhone = (value: string) => {
     // Vérifie que le numéro a 9 chiffres
     const regex = /^\d{9}$/;
     return regex.test(value);
@@ -78,7 +75,7 @@ export default function LandingPage() {
 
   const handleSubmit = () => {
     if (!firstName.trim()) {
-      setError("Merci d'indiquer ton prénom.");
+      setError("Merci d&apos;indiquer ton prénom.");
       return;
     }
     if (!validatePhone(phone)) {
@@ -89,7 +86,7 @@ export default function LandingPage() {
     alert(`Prénom: ${firstName}, Téléphone: +33${phone}`); // à remplacer par ton enregistrement Firebase
   };
 
-  const handlePhoneInput = (e: any) => {
+  const handlePhoneInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     // Récupère juste les chiffres bruts
     const rawValue = e.target.value.replace(/\D/g, "").slice(0, 9);
     
@@ -154,9 +151,11 @@ export default function LandingPage() {
           <div className="flex flex-col items-center">
             <div className="bg-gradient-to-br from-purple-500 via-fuchsia-500 to-indigo-600 p-[2px] rounded-2xl shadow-xl animate-float max-w-[280px] mx-auto">
               <div className="overflow-hidden rounded-2xl bg-black">
-                <img 
-                    src="/Parcours.gif" 
-                    alt="Analyse de l'offre" 
+                <Image 
+                  src="/Parcours.gif" 
+                  alt="Analyse de l'offre" 
+                  width={280}
+                  height={605}
                   className="w-full aspect-[9/19.5] object-contain" 
                 />
               </div>
@@ -166,38 +165,44 @@ export default function LandingPage() {
           <div className="flex flex-col items-center">
             <div className="bg-gradient-to-br from-purple-500 via-fuchsia-500 to-indigo-600 p-[2px] rounded-2xl shadow-xl animate-float max-w-[280px] mx-auto">
               <div className="overflow-hidden rounded-2xl bg-black">
-                <img 
+                <Image 
                   src="/Analyse.gif" 
                   alt="Création de CV" 
+                  width={280}
+                  height={605}
                   className="w-full aspect-[9/19.5] object-contain" 
                 />
               </div>
             </div>
-            <p className="text-yellow-400 font-semibold mt-4">2. Analyse d'une offre d'emploi</p>
+            <p className="text-yellow-400 font-semibold mt-4">2. Analyse d&apos;une offre d&apos;emploi</p>
           </div>
           <div className="flex flex-col items-center">
             <div className="bg-gradient-to-br from-purple-500 via-fuchsia-500 to-indigo-600 p-[2px] rounded-2xl shadow-xl animate-float max-w-[280px] mx-auto">
               <div className="overflow-hidden rounded-2xl bg-black">
-                <img 
+                <Image 
                   src="/CV.gif" 
                   alt="Quiz entretien" 
+                  width={280}
+                  height={605}
                   className="w-full aspect-[9/19.5] object-contain" 
                 />
               </div>
             </div>
-            <p className="text-yellow-400 font-semibold mt-4">3. On créé "LE" CV</p>
+            <p className="text-yellow-400 font-semibold mt-4">3. On créé &quot;LE&quot; CV</p>
           </div>
           <div className="flex flex-col items-center">
             <div className="bg-gradient-to-br from-purple-500 via-fuchsia-500 to-indigo-600 p-[2px] rounded-2xl shadow-xl animate-float max-w-[280px] mx-auto">
               <div className="overflow-hidden rounded-2xl bg-black">
-                <img 
+                <Image 
                   src="/quiz-entretien.gif" 
                   alt="Quiz entretien" 
+                  width={280}
+                  height={605}
                   className="w-full aspect-[9/19.5] object-contain" 
                 />
               </div>
             </div>
-            <p className="text-yellow-400 font-semibold mt-4">4. Préparation à l'entretien</p>
+            <p className="text-yellow-400 font-semibold mt-4">4. Préparation à l&apos;entretien</p>
           </div>
         </div>
 
@@ -207,9 +212,11 @@ export default function LandingPage() {
             <div className="snap-center shrink-0 w-52 flex flex-col items-center">
               <div className="w-full bg-gradient-to-br from-purple-500 via-fuchsia-500 to-indigo-600 p-[2px] rounded-2xl shadow-xl animate-float">
                 <div className="overflow-hidden rounded-2xl bg-black">
-                  <img 
+                  <Image 
                     src="/Parcours.gif" 
                     alt="Analyse de l'offre" 
+                    width={208}
+                    height={450}
                     className="w-full aspect-[9/19.5] object-contain" 
                   />
                 </div>
@@ -219,9 +226,11 @@ export default function LandingPage() {
             <div className="snap-center shrink-0 w-52 flex flex-col items-center">
               <div className="w-full bg-gradient-to-br from-purple-500 via-fuchsia-500 to-indigo-600 p-[2px] rounded-2xl shadow-xl animate-float">
                 <div className="overflow-hidden rounded-2xl bg-black">
-                  <img 
-                  src="/Analyse.gif" 
-                  alt="Analyse de l'offre d'emploi" 
+                  <Image 
+                    src="/Analyse.gif" 
+                    alt="Analyse de l'offre d'emploi" 
+                    width={208}
+                    height={450}
                     className="w-full aspect-[9/19.5] object-contain" 
                   />
                 </div>
@@ -231,26 +240,30 @@ export default function LandingPage() {
             <div className="snap-center shrink-0 w-52 flex flex-col items-center">
               <div className="w-full bg-gradient-to-br from-purple-500 via-fuchsia-500 to-indigo-600 p-[2px] rounded-2xl shadow-xl animate-float">
                 <div className="overflow-hidden rounded-2xl bg-black">
-                  <img 
-                  src="/CV.gif" 
-                  alt="Quiz entretien" 
+                  <Image 
+                    src="/CV.gif" 
+                    alt="Quiz entretien" 
+                    width={208}
+                    height={450}
                     className="w-full aspect-[8.8/19.2] object-contain" 
                   />
                 </div>
               </div>
-              <p className="text-yellow-400 font-semibold text-center mt-3">3. On créé "LE" CV</p>
+              <p className="text-yellow-400 font-semibold text-center mt-3">3. On créé &quot;LE&quot; CV</p>
             </div>
             <div className="snap-center shrink-0 w-52 flex flex-col items-center">
               <div className="w-full bg-gradient-to-br from-purple-500 via-fuchsia-500 to-indigo-600 p-[2px] rounded-2xl shadow-xl animate-float">
                 <div className="overflow-hidden rounded-2xl bg-black">
-                  <img 
+                  <Image 
                     src="/quiz-entretien.gif" 
                     alt="Quiz entretien" 
+                    width={208}
+                    height={450}
                     className="w-full aspect-[8.8/19.2] object-contain" 
                   />
                 </div>
               </div>
-              <p className="text-yellow-400 font-semibold text-center mt-3">4. On prépare l'entretien</p>
+              <p className="text-yellow-400 font-semibold text-center mt-3">4. On prépare l&apos;entretien</p>
             </div>
           </div>
         </div>
@@ -263,9 +276,9 @@ export default function LandingPage() {
             </h3>
             <p className="text-white text-lg md:text-xl font-semibold">
               
-              Une <span className="text-yellow-400">semaine gratuite</span> ça t'intéresse ? 
+              Une <span className="text-yellow-400">semaine gratuite</span> ça t&apos;intéresse ? 
               <br/>
-              On t'enverra le code promo par SMS quand l'app sort ! 
+              On t&apos;enverra le code promo par SMS quand l&apos;app sort ! 
 
             </p>
           </div>
@@ -324,17 +337,14 @@ export default function LandingPage() {
           </div>
 
           <div className="mt-10 flex justify-center">
-    <button
-      onClick={handleSubmit}
-      className="relative inline-flex items-center gap-3 px-8 py-3 rounded-xl bg-yellow-400 hover:bg-yellow-300 text-black font-bold text-lg shadow-lg transition-all duration-300 group"
-    >
-      <span className="absolute -inset-1 rounded-xl bg-yellow-400 blur opacity-30 group-hover:scale-105 transition-all duration-300"></span>
-      🚀 Je veux être prévenu.e !
-      
-       
-    </button>
-    
-  </div>
+            <button
+              onClick={handleSubmit}
+              className="relative inline-flex items-center gap-3 px-8 py-3 rounded-xl bg-yellow-400 hover:bg-yellow-300 text-black font-bold text-lg shadow-lg transition-all duration-300 group"
+            >
+              <span className="absolute -inset-1 rounded-xl bg-yellow-400 blur opacity-30 group-hover:scale-105 transition-all duration-300"></span>
+              🚀 Je veux être prévenu.e !
+            </button>
+          </div>
         </div>
         {error && <p className="mt-4 text-red-400 font-semibold">{error}</p>}
       </section>
