@@ -427,7 +427,9 @@ export default function LandingPage() {
           <div className="fixed inset-0 z-50 bg-black bg-opacity-60 flex items-center justify-center">
             <div className="bg-white text-black rounded-xl shadow-xl p-8 max-w-sm text-center animate-glow">
               <h2 className="text-2xl font-bold mb-4">🎉 Inscription reçue !</h2>
-              <p className="mb-6">Tu recevras un SMS dès que l'app sera dispo. Merci 🙏</p>
+              <p className="mb-6">
+                Tu recevras un SMS dès que l&apos;application sera dispo. Merci 🙏
+              </p>
               <button
                 onClick={() => setSuccessModal(false)}
                 className="px-6 py-2 bg-yellow-400 hover:bg-yellow-300 rounded-full font-semibold shadow-md transition"
