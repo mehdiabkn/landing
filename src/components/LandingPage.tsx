@@ -98,6 +98,8 @@ export default function LandingPage() {
     
     <div className="min-h-screen bg-gradient-to-b from-[#0f0c29] via-[#302b63] to-[#24243e] text-white font-sans">
        {/* Toutes les animations sont dans une seule balise style jsx */}
+      
+
       <style jsx>{`
         @keyframes float {
           0% { transform: translateY(0); }
@@ -134,13 +136,35 @@ export default function LandingPage() {
       `}</style>
       
       {/* Hero Section */}
-      <section className="py-12 px-6 text-center max-w-3xl mx-auto">
+
+      <section className="py-0 px-6 text-center max-w-3xl mx-auto">
+        {/* Announce Bar - à ajouter juste après l'ouverture de la div principale */}
+        <div className="absolute left-0 right-0 bg-yellow-400 text-black py-3 mb-5 w-full text-center font-bold z-50 shadow-md">
+          <p className="text-sm md:text-base uppercase tracking-wide">
+            PRÈS DE 80% DES CV SONT ÉLIMINÉS DÈS LA SÉLECTION ROBOT !!
+          </p>
+        </div>
         <div className="flex justify-center mb-6">
-          <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-yellow-400">
-            <Image src="/rachel.png" alt="Rachel" width={120} height={120} />
+      <div className="relative w-28 h-28 mt-20">
+        {/* Cercle extérieur avec dégradé */}
+        <div className="absolute inset-0 rounded-full bg-gradient-to-br from-yellow-400 via-yellow-500 to-orange-600 p-[3px] shadow-lg animate-spin-slow">
+          {/* Cercle intérieur contenant l'image */}
+          <div className="w-full h-full rounded-full overflow-hidden border-2 border-yellow-300/50">
+            <Image 
+              src="/rachel.png" 
+              alt="Rachel" 
+              width={120} 
+              height={120} 
+              className="w-full h-full object-cover"
+            />
           </div>
         </div>
-        <h1 className="text-5xl md:text-6xl font-extrabold leading-tight mb-6"> Laisse Rachel faire ton CV 🚀 </h1>
+    
+    {/* Effet de lueur */}
+    <div className="absolute -inset-1 rounded-full bg-yellow-400/10 blur-md"></div>
+  </div>
+</div>
+        <h1 className="text-5xl md:text-6xl font-extrabold leading-tight mb-6"> Laisse <span className="text-yellow-400">Rachel</span> faire ton CV </h1>
 
         <p className="text-xl md:text-2xl mb-8">
           Rachel <span className="text-yellow-400">{displayedText}</span>
@@ -207,7 +231,7 @@ export default function LandingPage() {
         </div>
 
         {/* Version mobile avec défilement horizontal - format iPhone */}
-        <div className="sm:hidden overflow-x-auto pb-4 -mx-4 px-4">
+        <div className="sm:hidden overflow-x-auto pb-4 -mx-4 px-4 py-5">
           <div className="flex gap-6 w-max snap-x snap-mandatory scroll-pl-4">
             <div className="snap-center shrink-0 w-52 flex flex-col items-center">
               <div className="w-full bg-gradient-to-br from-purple-500 via-fuchsia-500 to-indigo-600 p-[2px] rounded-2xl shadow-xl animate-float">
@@ -336,12 +360,12 @@ export default function LandingPage() {
             )}
           </div>
 
-          <div className="mt-10 flex justify-center">
+          <div className="mt-10 mb-20 flex justify-center">
             <button
               onClick={handleSubmit}
               className="relative inline-flex items-center gap-3 px-8 py-3 rounded-xl bg-yellow-400 hover:bg-yellow-300 text-black font-bold text-lg shadow-lg transition-all duration-300 group"
             >
-              <span className="absolute -inset-1 rounded-xl bg-yellow-400 blur opacity-30 group-hover:scale-105 transition-all duration-300"></span>
+              <span className="absolute -inset-1 rounded-xl bg-yellow-400 blur opacity-30 group-hover:scale-105 transition-all duration-300 mb-30"></span>
               🚀 Je veux être prévenu.e !
             </button>
           </div>
