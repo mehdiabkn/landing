@@ -23,6 +23,7 @@ export default function LandingPage() {
   const [loading, setLoading] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0.20);
+  const [isEndOfScroll, setIsEndOfScroll] = useState(false);
 
 
   useEffect(() => {
@@ -298,25 +299,47 @@ export default function LandingPage() {
 
             {/* Hint de swipe en dessous */}
             <div className="mt-2 flex justify-center items-center gap-2 animate-pulse text-yellow-400 text-sm">
-              <span className="xs:inline mt-5">Fais glisser pour voir les étapes</span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-4 h-4 animate-bounce-right mt-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
+            <span className="hidden mt-5 xs:inline">
+                {isEndOfScroll ? "Tu peux revenir" : "Fais glisser pour découvrir"}
+              </span>
+
+  {isEndOfScroll ? (
+    // Flèche vers la gauche
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className="w-4 h-4 animate-bounce-left mt-5"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+    </svg>
+  ) : (
+    // Flèche vers la droite
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className="w-4 h-4 animate-bounce-right mt-5"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+    </svg>
+  )}
             </div>
             {/* Conteneur scroll horizontal */}
             <div
               className="overflow-x-auto pb-4 -mx-4 px-4 pt-6 scroll-smooth snap-x snap-mandatory relative"
               onScroll={(e) => {
                 const el = e.currentTarget;
-                const ratio = el.scrollLeft / (el.scrollWidth - el.clientWidth);
+                const scrollLeft = el.scrollLeft;
+                const maxScrollLeft = el.scrollWidth - el.clientWidth;
+                const ratio = scrollLeft / maxScrollLeft;
+              
                 setScrollProgress(Math.min(Math.max(ratio, 0.2), 1));
+                setIsEndOfScroll(scrollLeft + 10 >= maxScrollLeft); // marge de 10px pour éviter les imprécisions
               }}
+              
             >
               <div className="flex gap-6 w-max scroll-pl-4">
                 {[
