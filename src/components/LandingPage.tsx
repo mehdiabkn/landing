@@ -22,7 +22,9 @@ export default function LandingPage() {
   const [phraseIndex, setPhraseIndex] = useState(0);
   const [loading, setLoading] = useState(false);
   const [successModal, setSuccessModal] = useState(false);
-  
+  const [scrollProgress, setScrollProgress] = useState(0.20);
+
+
   useEffect(() => {
     const phrase = rotatingPhrases[phraseIndex];
 
@@ -137,6 +139,13 @@ export default function LandingPage() {
       
 
       <style jsx>{`
+      @keyframes bounce-right {
+        0%, 100% { transform: translateX(0); }
+        50% { transform: translateX(6px); }
+      }
+      .animate-bounce-right {
+        animation: bounce-right 1s infinite;
+      }
         .loader {
           border-color: rgba(0, 0, 0, 0.2);
           border-top-color: #000;
@@ -277,66 +286,86 @@ export default function LandingPage() {
         </div>
 
         {/* Version mobile avec défilement horizontal - format iPhone */}
-        <div className="sm:hidden overflow-x-auto pb-4 -mx-4 px-4 py-5">
-          <div className="flex gap-6 w-max snap-x snap-mandatory scroll-pl-4">
-            <div className="snap-center shrink-0 w-52 flex flex-col items-center">
-              <div className="w-full bg-gradient-to-br from-purple-500 via-fuchsia-500 to-indigo-600 p-[2px] rounded-2xl shadow-xl animate-float">
-                <div className="overflow-hidden rounded-2xl bg-black">
-                  <Image 
-                    src="/Parcours.gif" 
-                    alt="Analyse de l'offre" 
-                    width={208}
-                    height={450}
-                    className="w-full aspect-[9/19.5] object-contain" 
-                  />
-                </div>
-              </div>
-              <p className="text-yellow-400 font-semibold text-center mt-3">1. On remplit ton parcours</p>
-            </div>
-            <div className="snap-center shrink-0 w-52 flex flex-col items-center">
-              <div className="w-full bg-gradient-to-br from-purple-500 via-fuchsia-500 to-indigo-600 p-[2px] rounded-2xl shadow-xl animate-float">
-                <div className="overflow-hidden rounded-2xl bg-black">
-                  <Image 
-                    src="/Analyse.gif" 
-                    alt="Analyse de l'offre d'emploi" 
-                    width={208}
-                    height={450}
-                    className="w-full aspect-[9/19.5] object-contain" 
-                  />
-                </div>
-              </div>
-              <p className="text-yellow-400 font-semibold text-center mt-3">2. On analyse une offre</p>
-            </div>
-            <div className="snap-center shrink-0 w-52 flex flex-col items-center">
-              <div className="w-full bg-gradient-to-br from-purple-500 via-fuchsia-500 to-indigo-600 p-[2px] rounded-2xl shadow-xl animate-float">
-                <div className="overflow-hidden rounded-2xl bg-black">
-                  <Image 
-                    src="/CV.gif" 
-                    alt="Quiz entretien" 
-                    width={208}
-                    height={450}
-                    className="w-full aspect-[8.8/19.2] object-contain" 
-                  />
-                </div>
-              </div>
-              <p className="text-yellow-400 font-semibold text-center mt-3">3. On créé &quot;LE&quot; CV</p>
-            </div>
-            <div className="snap-center shrink-0 w-52 flex flex-col items-center">
-              <div className="w-full bg-gradient-to-br from-purple-500 via-fuchsia-500 to-indigo-600 p-[2px] rounded-2xl shadow-xl animate-float">
-                <div className="overflow-hidden rounded-2xl bg-black">
-                  <Image 
-                    src="/quiz-entretien.gif" 
-                    alt="Quiz entretien" 
-                    width={208}
-                    height={450}
-                    className="w-full aspect-[8.8/19.2] object-contain" 
-                  />
-                </div>
-              </div>
-              <p className="text-yellow-400 font-semibold text-center mt-3">4. On prépare l&apos;entretien</p>
-            </div>
+          {/* Carrousel mobile avec scroll horizontal, barre de progression et hint UX */}
+          <div className="sm:hidden relative">
+           {/* Barre de progression UX plus visible & stylée */}
+          <div className="absolute top-0 left-0 w-full h-2 bg-purple-950/40 z-10 rounded-full overflow-hidden">
+            <div
+              className="h-full bg-gradient-to-r from-yellow-400 to-orange-400 transition-all duration-300 rounded-full"
+              style={{ width: `${scrollProgress * 100}%` }}
+            />
           </div>
-        </div>
+
+            {/* Hint de swipe en dessous */}
+            <div className="mt-2 flex justify-center items-center gap-2 animate-pulse text-yellow-400 text-sm">
+              <span className="xs:inline mt-5">Fais glisser pour voir les étapes</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-4 h-4 animate-bounce-right mt-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </div>
+            {/* Conteneur scroll horizontal */}
+            <div
+              className="overflow-x-auto pb-4 -mx-4 px-4 pt-6 scroll-smooth snap-x snap-mandatory relative"
+              onScroll={(e) => {
+                const el = e.currentTarget;
+                const ratio = el.scrollLeft / (el.scrollWidth - el.clientWidth);
+                setScrollProgress(Math.min(Math.max(ratio, 0.2), 1));
+              }}
+            >
+              <div className="flex gap-6 w-max scroll-pl-4">
+                {[
+                  {
+                    gif: "/Parcours.gif",
+                    text: "1. On remplit ton parcours",
+                    alt: "Analyse de l'offre",
+                  },
+                  {
+                    gif: "/Analyse.gif",
+                    text: "2. On analyse une offre",
+                    alt: "Analyse d'une offre d'emploi",
+                  },
+                  {
+                    gif: "/CV.gif",
+                    text: "3. On créé \"LE\" CV",
+                    alt: "Création du CV",
+                  },
+                  {
+                    gif: "/quiz-entretien.gif",
+                    text: "4. On prépare l'entretien",
+                    alt: "Préparation à l'entretien",
+                  },
+                ].map((slide, index) => (
+                  <div
+                    key={index}
+                    className="snap-center shrink-0 w-52 flex flex-col items-center"
+                  >
+                    <div className="w-full bg-gradient-to-br from-purple-500 via-fuchsia-500 to-indigo-600 p-[2px] rounded-2xl shadow-xl animate-float">
+                      <div className="overflow-hidden rounded-2xl bg-black">
+                        <Image
+                          src={slide.gif}
+                          alt={slide.alt}
+                          width={208}
+                          height={450}
+                          className="w-full aspect-[9/19.5] object-contain"
+                        />
+                      </div>
+                    </div>
+                    <p className="text-yellow-400 font-semibold text-center mt-3 px-2">
+                      {slide.text}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+          </div>
+
 
         {/* Section d'appel à l'action plus impactante */}
         <div className="mt-16 mb-8">
