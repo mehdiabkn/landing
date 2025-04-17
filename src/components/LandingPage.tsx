@@ -20,7 +20,9 @@ export default function LandingPage() {
   const [letterIndex, setLetterIndex] = useState(0);
   const [deleting, setDeleting] = useState(false);
   const [phraseIndex, setPhraseIndex] = useState(0);
-
+  const [loading, setLoading] = useState(false);
+  const [successModal, setSuccessModal] = useState(false);
+  
   useEffect(() => {
     const phrase = rotatingPhrases[phraseIndex];
 
@@ -72,19 +74,53 @@ export default function LandingPage() {
     const regex = /^\d{9}$/;
     return regex.test(value);
   };
-
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!firstName.trim()) {
-      setError("Merci d&apos;indiquer ton prénom.");
+      setError("Merci d'indiquer ton prénom.");
       return;
     }
     if (!validatePhone(phone)) {
       setError("Numéro invalide. 9 chiffres attendus après +33");
       return;
     }
+  
     setError("");
-    alert(`Prénom: ${firstName}, Téléphone: +33${phone}`); // à remplacer par ton enregistrement Firebase
+    setLoading(true);
+  
+    try {
+      const response = await fetch("https://backnewsloc2.onrender.com/rachel", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          nom: firstName,
+          tel: `+33${phone}`,
+        }),
+      });
+  
+      const data = await response.json();
+  
+      if (!response.ok) {
+        throw new Error(data.message || "Erreur lors de l'envoi.");
+      }
+  
+      setSuccessModal(true); // Affiche la modale
+      setFirstName("");
+      setPhone("");
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error("Erreur:", error.message);
+        setError("Une erreur est survenue. Veuillez réessayer.");
+      } else {
+        console.error("Erreur inconnue:", error);
+        setError("Une erreur inattendue est survenue.");
+      }
+    } finally {
+      setLoading(false);
+    }
   };
+  
 
   const handlePhoneInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     // Récupère juste les chiffres bruts
@@ -101,6 +137,16 @@ export default function LandingPage() {
       
 
       <style jsx>{`
+        .loader {
+          border-color: rgba(0, 0, 0, 0.2);
+          border-top-color: #000;
+          animation: spin 0.6s linear infinite;
+        }
+        @keyframes spin {
+          to {
+            transform: rotate(360deg);
+          }
+        }
         @keyframes float {
           0% { transform: translateY(0); }
           50% { transform: translateY(-6px); }
@@ -141,7 +187,7 @@ export default function LandingPage() {
         {/* Announce Bar - à ajouter juste après l'ouverture de la div principale */}
         <div className="absolute left-0 right-0 bg-yellow-400 text-black py-3 mb-5 w-full text-center font-bold z-50 shadow-md">
           <p className="text-sm md:text-base uppercase tracking-wide">
-            PRÈS DE 80% DES CV SONT ÉLIMINÉS DÈS LA SÉLECTION ROBOT !!
+            PRÈS DE 80% DES CV SONT ÉLIMINÉS DÈS LA SÉLECTION ROBOT.
           </p>
         </div>
         <div className="flex justify-center mb-6">
@@ -361,16 +407,36 @@ export default function LandingPage() {
           </div>
 
           <div className="mt-10 mb-20 flex justify-center">
-            <button
+          <button
               onClick={handleSubmit}
-              className="relative inline-flex items-center gap-3 px-8 py-3 rounded-xl bg-yellow-400 hover:bg-yellow-300 text-black font-bold text-lg shadow-lg transition-all duration-300 group"
+              disabled={loading}
+              className={`relative inline-flex items-center justify-center gap-3 px-8 py-3 rounded-xl ${
+                loading ? 'bg-yellow-300 cursor-not-allowed' : 'bg-yellow-400 hover:bg-yellow-300'
+              } text-black font-bold text-lg shadow-lg transition-all duration-300 group`}
             >
-              <span className="absolute -inset-1 rounded-xl bg-yellow-400 blur opacity-30 group-hover:scale-105 transition-all duration-300 mb-30"></span>
-              🚀 Je veux être prévenu.e !
+              {loading ? (
+                <span className="loader ease-linear rounded-full border-4 border-t-4 border-yellow-500 h-5 w-5"></span>
+              ) : (
+                "🚀 Je veux être prévenu.e !"
+              )}
             </button>
           </div>
         </div>
         {error && <p className="mt-4 text-red-400 font-semibold">{error}</p>}
+        {successModal && (
+          <div className="fixed inset-0 z-50 bg-black bg-opacity-60 flex items-center justify-center">
+            <div className="bg-white text-black rounded-xl shadow-xl p-8 max-w-sm text-center animate-glow">
+              <h2 className="text-2xl font-bold mb-4">🎉 Inscription reçue !</h2>
+              <p className="mb-6">Tu recevras un SMS dès que l'app sera dispo. Merci 🙏</p>
+              <button
+                onClick={() => setSuccessModal(false)}
+                className="px-6 py-2 bg-yellow-400 hover:bg-yellow-300 rounded-full font-semibold shadow-md transition"
+              >
+                Fermer
+              </button>
+            </div>
+          </div>
+        )}
       </section>
     </div>
   );
