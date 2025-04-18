@@ -1,7 +1,7 @@
 "use client"
 import React, { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
-import { Check, Phone, User, X } from "lucide-react";
+import { Check, Phone, User } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import PrivacyPolicyModal from "@/components/PrivacyPolicyModal";
