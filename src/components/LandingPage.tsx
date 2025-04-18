@@ -319,7 +319,7 @@ export default function LandingPage() {
             <div className="bg-gradient-to-br from-purple-500 via-fuchsia-500 to-indigo-600 p-[2px] rounded-2xl shadow-xl animate-float max-w-[280px] mx-auto">
               <div className="overflow-hidden rounded-2xl bg-black">
                 <Image 
-                  src="/CV.jpg" 
+                  src="/cv.jpg" 
                   alt="Quiz entretien" 
                   width={280}
                   height={605}
