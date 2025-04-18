@@ -480,7 +480,7 @@ export default function LandingPage() {
             <div className="bg-white text-black rounded-xl shadow-xl p-8 max-w-sm text-center animate-glow">
               <h2 className="text-2xl font-bold mb-4">🎉 Inscription reçue !</h2>
               <p className="mb-6">
-                Tu recevras un SMS dès que l&apos;application sera dispo. Merci 🙏
+                Tu recevras un SMS dès que l&apos;application sera dispo. À bientot !
               </p>
               <button
                 onClick={() => setSuccessModal(false)}
