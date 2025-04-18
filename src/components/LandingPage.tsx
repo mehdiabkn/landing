@@ -232,7 +232,7 @@ export default function LandingPage() {
             <div className="bg-gradient-to-br from-purple-500 via-fuchsia-500 to-indigo-600 p-[2px] rounded-2xl shadow-xl animate-float max-w-[280px] mx-auto">
               <div className="overflow-hidden rounded-2xl bg-black">
                 <Image 
-                  src="/experience.jpg" 
+                  src="/parcours1.gif" 
                   alt="Analyse de l'offre" 
                   width={280}
                   height={605}
@@ -344,7 +344,7 @@ export default function LandingPage() {
               <div className="flex gap-6 w-max scroll-pl-4">
                 {[
                   {
-                    gif: "/experience.jpg",
+                    gif: "/parcours1.gif",
                     text: "1. On remplit ton parcours",
                     alt: "Analyse de l'offre",
                   },
