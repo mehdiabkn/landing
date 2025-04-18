@@ -232,7 +232,7 @@ export default function LandingPage() {
             <div className="bg-gradient-to-br from-purple-500 via-fuchsia-500 to-indigo-600 p-[2px] rounded-2xl shadow-xl animate-float max-w-[280px] mx-auto">
               <div className="overflow-hidden rounded-2xl bg-black">
                 <Image 
-                  src="/Parcours.gif" 
+                  src="/experience.jpg" 
                   alt="Analyse de l'offre" 
                   width={280}
                   height={605}
@@ -246,7 +246,7 @@ export default function LandingPage() {
             <div className="bg-gradient-to-br from-purple-500 via-fuchsia-500 to-indigo-600 p-[2px] rounded-2xl shadow-xl animate-float max-w-[280px] mx-auto">
               <div className="overflow-hidden rounded-2xl bg-black">
                 <Image 
-                  src="/Analyse.gif" 
+                  src="/analyse.jpg" 
                   alt="Création de CV" 
                   width={280}
                   height={605}
@@ -260,7 +260,7 @@ export default function LandingPage() {
             <div className="bg-gradient-to-br from-purple-500 via-fuchsia-500 to-indigo-600 p-[2px] rounded-2xl shadow-xl animate-float max-w-[280px] mx-auto">
               <div className="overflow-hidden rounded-2xl bg-black">
                 <Image 
-                  src="/CV.gif" 
+                  src="/CV.jpg" 
                   alt="Quiz entretien" 
                   width={280}
                   height={605}
@@ -274,7 +274,7 @@ export default function LandingPage() {
             <div className="bg-gradient-to-br from-purple-500 via-fuchsia-500 to-indigo-600 p-[2px] rounded-2xl shadow-xl animate-float max-w-[280px] mx-auto">
               <div className="overflow-hidden rounded-2xl bg-black">
                 <Image 
-                  src="/quiz-entretien.gif" 
+                  src="/quiz.jpg" 
                   alt="Quiz entretien" 
                   width={280}
                   height={605}
@@ -344,22 +344,22 @@ export default function LandingPage() {
               <div className="flex gap-6 w-max scroll-pl-4">
                 {[
                   {
-                    gif: "/Parcours.gif",
+                    gif: "/experience.jpg",
                     text: "1. On remplit ton parcours",
                     alt: "Analyse de l'offre",
                   },
                   {
-                    gif: "/Analyse.gif",
+                    gif: "/analyse.jpg",
                     text: "2. On analyse une offre",
                     alt: "Analyse d'une offre d'emploi",
                   },
                   {
-                    gif: "/CV.gif",
+                    gif: "/cv.jpg",
                     text: "3. On créé \"LE\" CV",
                     alt: "Création du CV",
                   },
                   {
-                    gif: "/quiz-entretien.gif",
+                    gif: "/quiz.jpg",
                     text: "4. On prépare l'entretien",
                     alt: "Préparation à l'entretien",
                   },
