@@ -1,8 +1,12 @@
 "use client"
 import React, { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
-import { Check, Phone, User } from "lucide-react";
+import { Check, Phone, User, X } from "lucide-react";
 import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import PrivacyPolicyModal from "@/components/PrivacyPolicyModal";
+import MentionsLegales from "@/components/MentionsLegales";
+import SnapPixel from "@/components/SnapPixel";
 
 const rotatingPhrases = [
   "fait ton CV pour chaque offre",
@@ -12,6 +16,7 @@ const rotatingPhrases = [
   "structure ton profil comme un pro.",
 ];
 
+// Déclaration pour Snapchat Pixel
 export default function LandingPage() {
   const [phone, setPhone] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -24,9 +29,24 @@ export default function LandingPage() {
   const [successModal, setSuccessModal] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0.20);
   const [isEndOfScroll, setIsEndOfScroll] = useState(false);
-
+  // États pour la conformité RGPD
+  const [consentAccepted, setConsentAccepted] = useState(false);
+  const [showPrivacyPolicy, setShowPrivacyPolicy] = useState(false);
+  const [showLegalNotice, setShowLegalNotice] = useState(false);
+  const [showCookieBanner, setShowCookieBanner] = useState(true);
 
   useEffect(() => {
+    // Vérifier si l'utilisateur a déjà fait un choix pour les cookies
+    const cookieChoice = localStorage.getItem('cookiesAccepted');
+    if (cookieChoice && false) {
+      setShowCookieBanner(false);
+    }
+    
+    // Initialiser les pixels si cookies acceptés
+    if (cookieChoice === 'true' && typeof window !== 'undefined' && window.snaptr) {
+      window.snaptr('track', 'PAGE_VIEW');
+    }
+    
     const phrase = rotatingPhrases[phraseIndex];
 
     if (!deleting && letterIndex < phrase.length) {
@@ -77,6 +97,7 @@ export default function LandingPage() {
     const regex = /^\d{9}$/;
     return regex.test(value);
   };
+  
   const handleSubmit = async () => {
     if (!firstName.trim()) {
       setError("Merci d'indiquer ton prénom.");
@@ -84,6 +105,10 @@ export default function LandingPage() {
     }
     if (!validatePhone(phone)) {
       setError("Numéro invalide. 9 chiffres attendus après +33");
+      return;
+    }
+    if (!consentAccepted) {
+      setError("Veuillez accepter la politique de confidentialité pour continuer.");
       return;
     }
   
@@ -99,6 +124,8 @@ export default function LandingPage() {
         body: JSON.stringify({
           nom: firstName,
           tel: `+33${phone}`,
+          consentement: true, // Enregistrer le consentement
+          date_consentement: new Date().toISOString(), // Date du consentement
         }),
       });
   
@@ -107,10 +134,19 @@ export default function LandingPage() {
       if (!response.ok) {
         throw new Error(data.message || "Erreur lors de l'envoi.");
       }
+      
+      // Tracking de conversion Snapchat
+      if (typeof window !== 'undefined' && window.snaptr) {
+        window.snaptr('track', 'SIGN_UP', {
+          'sign_up_method': 'form',
+          'user_phone_number': `+33${phone}`
+        });
+      }
   
       setSuccessModal(true); // Affiche la modale
       setFirstName("");
       setPhone("");
+      setConsentAccepted(false);
     } catch (error) {
       if (error instanceof Error) {
         console.error("Erreur:", error.message);
@@ -124,7 +160,6 @@ export default function LandingPage() {
     }
   };
   
-
   const handlePhoneInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     // Récupère juste les chiffres bruts
     const rawValue = e.target.value.replace(/\D/g, "").slice(0, 9);
@@ -133,19 +168,40 @@ export default function LandingPage() {
     setPhone(rawValue);
   };
 
-  return (
+  const acceptCookies = () => {
+    setShowCookieBanner(false);
+    localStorage.setItem('cookiesAccepted', 'true');
     
+    // Initialisation Snapchat Pixel
+    if (typeof window !== 'undefined' && window.snaptr) {
+      window.snaptr('track', 'PAGE_VIEW');
+    }
+  };
+
+  const rejectCookies = () => {
+    setShowCookieBanner(false);
+    localStorage.setItem('cookiesAccepted', 'false');
+  };
+
+  return (
+    <>
+    <SnapPixel />
     <div className="min-h-screen bg-gradient-to-b from-[#0f0c29] via-[#302b63] to-[#24243e] text-white font-sans">
        {/* Toutes les animations sont dans une seule balise style jsx */}
-      
-
       <style jsx>{`
       @keyframes bounce-right {
         0%, 100% { transform: translateX(0); }
         50% { transform: translateX(6px); }
       }
+      @keyframes bounce-left {
+        0%, 100% { transform: translateX(0); }
+        50% { transform: translateX(-6px); }
+      }
       .animate-bounce-right {
         animation: bounce-right 1s infinite;
+      }
+      .animate-bounce-left {
+        animation: bounce-left 1s infinite;
       }
         .loader {
           border-color: rgba(0, 0, 0, 0.2);
@@ -186,6 +242,9 @@ export default function LandingPage() {
           0%, 100% { box-shadow: 0 0 8px rgba(34, 197, 94, 0.5); }
           50% { box-shadow: 0 0 14px rgba(34, 197, 94, 0.8); }
         }
+        .animate-spin-slow {
+          animation: spin 8s linear infinite;
+        }
         .border-green-500 {
           animation: glow-green 2s ease-in-out infinite;
         }
@@ -203,8 +262,8 @@ export default function LandingPage() {
         <div className="flex justify-center mb-6">
       <div className="relative w-28 h-28 mt-20">
         {/* Cercle extérieur avec dégradé */}
-        <div className="absolute inset-0 rounded-full bg-gradient-to-br from-yellow-400 via-yellow-500 to-orange-600 p-[3px] shadow-lg animate-spin-slow">
-          {/* Cercle intérieur contenant l'image */}
+        <div className="absolute inset-0 rounded-full bg-gradient-to-br from-yellow-400 via-yellow-500 to-orange-600 p-[3px] shadow-lg">
+        {/* Cercle intérieur contenant l'image */}
           <div className="w-full h-full rounded-full overflow-hidden border-2 border-yellow-300/50">
             <Image 
               src="/rachel.png" 
@@ -458,6 +517,30 @@ export default function LandingPage() {
             )}
           </div>
 
+          {/* Ajout de la case à cocher pour le consentement */}
+          <div className="flex items-start gap-3 mt-4 w-full max-w-xs">
+            <div className="mt-1">
+              <input 
+                type="checkbox" 
+                id="consent" 
+                checked={consentAccepted}
+                onChange={(e) => setConsentAccepted(e.target.checked)}
+                className="h-4 w-4 accent-yellow-400 cursor-pointer"
+              />
+            </div>
+            <label htmlFor="consent" className="text-sm text-left">
+              J&apos;accepte de recevoir par SMS l&apos;offre de lancement et les communications de Jobboost concernant l&apos;application. Voir notre{" "}
+              <button 
+                id="privacy-policy-btn"
+                type="button"
+                onClick={() => setShowPrivacyPolicy(true)} 
+                className="text-yellow-400 underline hover:text-yellow-300"
+              >
+                politique de confidentialité
+              </button>
+            </label>
+          </div>
+
           <div className="mt-10 mb-20 flex justify-center">
           <button
               onClick={handleSubmit}
@@ -475,12 +558,14 @@ export default function LandingPage() {
           </div>
         </div>
         {error && <p className="mt-4 text-red-400 font-semibold">{error}</p>}
+        
+        {/* Modal succès */}
         {successModal && (
           <div className="fixed inset-0 z-50 bg-black bg-opacity-60 flex items-center justify-center">
             <div className="bg-white text-black rounded-xl shadow-xl p-8 max-w-sm text-center animate-glow">
               <h2 className="text-2xl font-bold mb-4">🎉 Inscription reçue !</h2>
               <p className="mb-6">
-                Tu recevras un SMS dès que l&apos;application sera dispo. À bientot !
+                Tu recevras un SMS dès que l&apos;application sera dispo. À bientôt !
               </p>
               <button
                 onClick={() => setSuccessModal(false)}
@@ -491,7 +576,66 @@ export default function LandingPage() {
             </div>
           </div>
         )}
+
+        {/* Modal de politique de confidentialité */}
+        {showPrivacyPolicy && <PrivacyPolicyModal onClose={() => setShowPrivacyPolicy(false)} />}
+        
+        {/* Modal de mentions légales */}
+        {showLegalNotice && <MentionsLegales onClose={() => setShowLegalNotice(false)} />}
       </section>
+
+      {/* Cookie Banner */}
+      {showCookieBanner && (
+        <div className="fixed bottom-0 left-0 right-0 bg-gray-900 p-4 shadow-lg z-50">
+          <div className="max-w-3xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="text-sm">
+              <p>Nous utilisons des cookies pour améliorer votre expérience et analyser le trafic de notre site. Certains cookies nous permettent également de personnaliser notre contenu et nos publicités.</p>
+            </div>
+            <div className="flex gap-2">
+              <Button 
+                onClick={rejectCookies}
+                variant="outline" 
+                className="text-black border-white hover:bg-gray-800 whitespace-nowrap"
+              >
+                Refuser
+              </Button>
+              <Button 
+                onClick={acceptCookies}
+                className="bg-yellow-400 text-black hover:bg-yellow-300"
+              >
+                Accepter
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Footer avec mentions légales */}
+      <footer className="py-6 px-6 bg-gray-900/70 border-t border-gray-800 mt-8">
+        <div className="max-w-3xl mx-auto text-center text-sm">
+          <p className="text-gray-400 mb-4">
+            © {new Date().getFullYear()} Jobboost - Tous droits réservés
+          </p>
+          <div className="flex flex-wrap justify-center gap-4">
+            <button 
+              onClick={() => setShowPrivacyPolicy(true)}
+              className="text-gray-400 hover:text-yellow-400"
+            >
+              Politique de confidentialité
+            </button>
+            <button 
+              id="legal-notice-btn"
+              onClick={() => setShowLegalNotice(true)}
+              className="text-gray-400 hover:text-yellow-400"
+            >
+              Mentions légales
+            </button>
+            <a href="mailto:contact@jobboost.fr" className="text-gray-400 hover:text-yellow-400">
+              Contact
+            </a>
+          </div>
+        </div>
+      </footer>
     </div>
-  );
+  </>);
 }
