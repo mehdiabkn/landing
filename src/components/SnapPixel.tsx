@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 
 declare global {
   interface Window {
-    snaptr?: (...args: any[]) => void;
+    snaptr?: (...args: unknown[]) => void;
   }
 }
 
