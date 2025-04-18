@@ -38,7 +38,7 @@ export default function LandingPage() {
   useEffect(() => {
     // Vérifier si l'utilisateur a déjà fait un choix pour les cookies
     const cookieChoice = localStorage.getItem('cookiesAccepted');
-    if (cookieChoice && false) {
+    if (cookieChoice) {
       setShowCookieBanner(false);
     }
     

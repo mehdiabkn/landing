@@ -11,6 +11,8 @@ declare global {
 export default function SnapPixel() {
   useEffect(() => {
     // Si le pixel est déjà injecté, ne rien faire
+    console.log("HI MODEFO")
+    alert("Snapchazt Pixel chargé"); // ⚠️ juste pour test
 
     // Injecte le script
     const script = document.createElement('script');
