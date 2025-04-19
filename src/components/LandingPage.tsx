@@ -15,6 +15,11 @@ const rotatingPhrases = [
   "te prépare aux entretiens.",
   "structure ton profil comme un pro.",
 ];
+declare global {
+  interface Window {
+    snaptr?: (...args: any[]) => void;
+  }
+}
 
 // Déclaration pour Snapchat Pixel
 export default function LandingPage() {
@@ -43,8 +48,8 @@ export default function LandingPage() {
     }
     
     // Initialiser les pixels si cookies acceptés
-    if (cookieChoice === 'true' && typeof window !== 'undefined' && (window as any).snaptr) {
-      (window as any).snaptr?.('track', 'PAGE_VIEW');
+    if (cookieChoice === 'true' && typeof window !== 'undefined' && window.snaptr) {
+      window.snaptr?.('track', 'PAGE_VIEW');
     }
     
     const phrase = rotatingPhrases[phraseIndex];
@@ -136,8 +141,8 @@ export default function LandingPage() {
       }
       
       // Tracking de conversion Snapchat
-      if (typeof window !== 'undefined' && (window as any).snaptr) {
-        (window as any).snaptr?.('track', 'SIGN_UP', {
+      if (typeof window !== 'undefined' && window.snaptr) {
+        window.snaptr?.('track', 'SIGN_UP', {
           'sign_up_method': 'form',
           'user_phone_number': `+33${phone}`
         });
@@ -173,8 +178,8 @@ export default function LandingPage() {
     localStorage.setItem('cookiesAccepted', 'true');
     
     // Initialisation Snapchat Pixel
-    if (typeof window !== 'undefined' && (window as any).snaptr) {
-      (window as any).snaptr?.('track', 'PAGE_VIEW');
+    if (typeof window !== 'undefined' && window.snaptr) {
+      window.snaptr?.('track', 'PAGE_VIEW');
     }
   };
 
