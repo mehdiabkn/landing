@@ -621,7 +621,7 @@ export default function LandingPage() {
           <p className="text-gray-400 mb-4">
             © {new Date().getFullYear()} Jobboost - Tous droits réservés.
           </p>
-          <p className="italic">"Entre IA on se comprend" - Selma </p>
+          <p className="italic">Entre IA on se comprend - Selma </p>
           <div className="flex flex-wrap justify-center gap-4">
             <button 
               onClick={() => setShowPrivacyPolicy(true)}
