@@ -40,7 +40,18 @@ export default function LandingPage() {
   const [showPrivacyPolicy, setShowPrivacyPolicy] = useState(false);
   const [showLegalNotice, setShowLegalNotice] = useState(false);
   const [showCookieBanner, setShowCookieBanner] = useState(true);
-
+  function trackSnapEvent(
+    eventName: string,
+    params?: Record<string, unknown>
+  ) {
+    if (typeof window !== 'undefined' && typeof window.snaptr === 'function') {
+      window.snaptr('track', eventName, params);
+      console.log(`📤 Snapchat event envoyé : ${eventName}`, params || {});
+    } else {
+      console.warn('⚠️ snaptr non disponible');
+    }
+  }
+  
   useEffect(() => {
     // Vérifier si l'utilisateur a déjà fait un choix pour les cookies
     const cookieChoice = localStorage.getItem('cookiesAccepted');
@@ -150,6 +161,10 @@ export default function LandingPage() {
       }
   
       setSuccessModal(true); // Affiche la modale
+      trackSnapEvent('SIGN_UP', {
+        sign_up_method: 'form',
+        user_phone_number: `+33${phone}`,
+      });
       setFirstName("");
       setPhone("");
       setConsentAccepted(false);
