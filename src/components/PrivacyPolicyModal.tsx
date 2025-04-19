@@ -61,7 +61,7 @@ const PrivacyPolicyModal: React.FC<PrivacyPolicyModalProps> = ({ onClose }) => {
           <section>
                 <h3 className="text-xl font-semibold mb-2">4. Destinataires des données</h3>
                 <p>
-                    Vos données personnelles sont destinées à :
+                    Vos données personnelles sont destinées à  :
                 </p>
                 <ul className="list-disc pl-6 my-2">
                     <li>Notre équipe interne responsable du lancement de l&apos;application</li>
