@@ -27,14 +27,12 @@ const MentionsLegales: React.FC<MentionsLegalesProps> = ({ onClose }) => {
               Le site Jobboost est édité par :
             </p>
             <p className="my-2">
-              [Nom de votre société]<br />
-              Forme juridique : [SARL, SAS, etc.]<br />
-              Capital social : [montant] euros<br />
-              Siège social : [adresse complète]<br />
-              SIRET : [numéro SIRET]<br />
-              RCS : [ville et numéro RCS]<br />
-              Numéro de TVA intracommunautaire : [numéro]<br />
-              Directeur de la publication : [Prénom NOM]
+              LYAMAPPS<br />
+              Forme juridique : EI<br />
+              SIEGE : 3123, 361 ALLEE BERLIOZ, 38400 SAINT-MARTIN-DHERES<br />
+              SIRET : 93521129200013<br />
+              RCS : 935 211 292 R.C.S. Grenoble<br />
+              Directeur de la publication : Laëtitia Youssef
             </p>
           </section>
 
@@ -44,10 +42,12 @@ const MentionsLegales: React.FC<MentionsLegalesProps> = ({ onClose }) => {
               Le site Jobboost est hébergé par :
             </p>
             <p className="my-2">
-              [Nom de l&apos;hébergeur]<br />
-              [Adresse complète]<br />
-              [Téléphone]<br />
-              [Email de contact]
+            Vercel Inc.<br />
+            440 N Barranca Ave #4133<br />
+            Covina, CA 91723<br />
+            États-Unis<br />
+            Téléphone : Non communiqué<br />
+            Email de contact : support@vercel.com
             </p>
           </section>
 

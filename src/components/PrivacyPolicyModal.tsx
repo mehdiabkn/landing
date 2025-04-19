@@ -39,16 +39,17 @@ const PrivacyPolicyModal: React.FC<PrivacyPolicyModalProps> = ({ onClose }) => {
           <section>
             <h3 className="text-xl font-semibold mb-2">2. Finalités du traitement</h3>
             <p>
-              Les données personnelles que vous nous fournissez sont utilisées pour :
+                Les données personnelles que vous nous fournissez sont utilisées pour :
             </p>
             <ul className="list-disc pl-6 my-2">
-              <li>Vous envoyer par SMS des informations sur le lancement de l&apos;application Jobboost</li>
-              <li>Vous fournir le code promotionnel pour la semaine gratuite</li>
-              <li>Vous tenir informé(e) des fonctionnalités de l&apos;application</li>
-              <li>Analyser l&apos;efficacité de nos campagnes marketing et améliorer nos services</li>
-              <li>Personnaliser les publicités qui pourraient vous être présentées sur d&apos;autres plateformes</li>
+                <li>Vous envoyer par SMS des informations sur le lancement de l&apos;application Jobboost</li>
+                <li>Vous fournir le code promotionnel pour la semaine gratuite</li>
+                <li>Vous tenir informé(e) des fonctionnalités de l&apos;application</li>
+                <li>Analyser l&apos;efficacité de nos campagnes marketing (y compris via le pixel Snapchat)</li>
+                <li>Personnaliser les publicités qui pourraient vous être présentées sur d&apos;autres plateformes (Snapchat, Meta, etc.)</li>
             </ul>
-          </section>
+            </section>
+
 
           <section>
             <h3 className="text-xl font-semibold mb-2">3. Base légale du traitement</h3>
@@ -58,19 +59,19 @@ const PrivacyPolicyModal: React.FC<PrivacyPolicyModalProps> = ({ onClose }) => {
           </section>
 
           <section>
-            <h3 className="text-xl font-semibold mb-2">4. Destinataires des données</h3>
-            <p>
-              Vos données personnelles sont destinées à :
-            </p>
-            <ul className="list-disc pl-6 my-2">
-              <li>Notre équipe interne responsable du lancement de l&apos;application</li>
-              <li>Nos prestataires techniques pour l&apos;envoi des SMS (conformément à nos instructions et exclusivement pour les finalités mentionnées)</li>
-              <li>Nos partenaires d&apos;analyse (Meta, Snapchat) pour l&apos;optimisation de nos campagnes marketing</li>
-            </ul>
-            <p>
-              Nous ne vendons, n&apos;échangeons ni ne transférons d&apos;une autre manière vos informations personnelles à des tiers.
-            </p>
-          </section>
+                <h3 className="text-xl font-semibold mb-2">4. Destinataires des données</h3>
+                <p>
+                    Vos données personnelles sont destinées à :
+                </p>
+                <ul className="list-disc pl-6 my-2">
+                    <li>Notre équipe interne responsable du lancement de l&apos;application</li>
+                    <li>Nos prestataires techniques pour l&apos;envoi des SMS (conformément à nos instructions et exclusivement pour les finalités mentionnées)</li>
+                    <li>Nos partenaires d&apos;analyse et de marketing digital, tels que Meta (Facebook/Instagram) et Snapchat, via des outils de suivi comme le pixel</li>
+                </ul>
+                <p>
+                    Nous ne vendons, n&apos;échangeons ni ne transférons d&apos;une autre manière vos informations personnelles à des tiers.
+                </p>
+                </section>
 
           <section>
             <h3 className="text-xl font-semibold mb-2">5. Durée de conservation</h3>
