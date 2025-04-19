@@ -17,8 +17,9 @@ const rotatingPhrases = [
 ];
 declare global {
   interface Window {
-    snaptr?: (...args: any[]) => void;
+    snaptr?: (...args: [string, string?, Record<string, unknown>?]) => void;
   }
+  
 }
 
 // Déclaration pour Snapchat Pixel
