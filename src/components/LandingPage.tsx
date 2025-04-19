@@ -43,8 +43,8 @@ export default function LandingPage() {
     }
     
     // Initialiser les pixels si cookies acceptés
-    if (cookieChoice === 'true' && typeof window !== 'undefined' && window.snaptr) {
-      window.snaptr('track', 'PAGE_VIEW');
+    if (cookieChoice === 'true' && typeof window !== 'undefined' && (window as any).snaptr) {
+      (window as any).snaptr?.('track', 'PAGE_VIEW');
     }
     
     const phrase = rotatingPhrases[phraseIndex];
@@ -136,8 +136,8 @@ export default function LandingPage() {
       }
       
       // Tracking de conversion Snapchat
-      if (typeof window !== 'undefined' && window.snaptr) {
-        window.snaptr('track', 'SIGN_UP', {
+      if (typeof window !== 'undefined' && (window as any).snaptr) {
+        (window as any).snaptr?.('track', 'SIGN_UP', {
           'sign_up_method': 'form',
           'user_phone_number': `+33${phone}`
         });
@@ -173,8 +173,8 @@ export default function LandingPage() {
     localStorage.setItem('cookiesAccepted', 'true');
     
     // Initialisation Snapchat Pixel
-    if (typeof window !== 'undefined' && window.snaptr) {
-      window.snaptr('track', 'PAGE_VIEW');
+    if (typeof window !== 'undefined' && (window as any).snaptr) {
+      (window as any).snaptr?.('track', 'PAGE_VIEW');
     }
   };
 
@@ -614,8 +614,9 @@ export default function LandingPage() {
       <footer className="py-6 px-6 bg-gray-900/70 border-t border-gray-800 mt-8">
         <div className="max-w-3xl mx-auto text-center text-sm">
           <p className="text-gray-400 mb-4">
-            © {new Date().getFullYear()} Jobboost - Tous droits réservés
+            © {new Date().getFullYear()} Jobboost - Tous droits réservés.
           </p>
+          <p className="italic">"Entre IA on se comprend" - Selma </p>
           <div className="flex flex-wrap justify-center gap-4">
             <button 
               onClick={() => setShowPrivacyPolicy(true)}
