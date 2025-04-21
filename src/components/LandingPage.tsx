@@ -504,7 +504,7 @@ export default function LandingPage() {
             </h3>
             <p className="text-white text-lg md:text-xl font-semibold">
               
-              Avoir l'application <span className="text-yellow-400"> en avant première</span> ça t&apos;intéresse ? 
+              Avoir l&apos;application <span className="text-yellow-400"> en avant première</span> ça t&apos;intéresse ? 
               <br/>
               On t&apos;enverra un SMS si tu es sélectionné ! 
 
@@ -588,7 +588,7 @@ export default function LandingPage() {
               onChange={(e) => setAgeRange(e.target.value)}
               className="w-full bg-white text-black p-3 rounded-md appearance-none"
             >
-              <option value="">Sélectionne ta tranche d'âge</option>
+              <option value="">Sélectionne ta tranche d&apos;âge</option>
               {ageRanges.map((range, index) => (
                 <option key={index} value={range}>{range}</option>
               ))}
