@@ -15,6 +15,18 @@ const rotatingPhrases = [
   "te prépare aux entretiens.",
   "structure ton profil comme un pro.",
 ];
+
+// Tranches d'âge pour le sélecteur
+const ageRanges = [
+  "Moins de 20 ans",
+  "20-25 ans",
+  "26-30 ans",
+  "31-35 ans",
+  "36-40 ans",
+  "41-45 ans",
+  "Plus de 45 ans"
+];
+
 declare global {
   interface Window {
     snaptr?: (...args: [string, string?, Record<string, unknown>?]) => void;
@@ -26,6 +38,8 @@ declare global {
 export default function LandingPage() {
   const [phone, setPhone] = useState("");
   const [firstName, setFirstName] = useState("");
+  const [profileDescription, setProfileDescription] = useState("");
+  const [ageRange, setAgeRange] = useState("");
   const [error, setError] = useState("");
   const [displayedText, setDisplayedText] = useState("");
   const [letterIndex, setLetterIndex] = useState(0);
@@ -124,6 +138,14 @@ export default function LandingPage() {
       setError("Numéro invalide. 9 chiffres attendus après +33");
       return;
     }
+    if (!profileDescription.trim()) {
+      setError("Merci de décrire brièvement ton profil et ce que tu recherches.");
+      return;
+    }
+    if (!ageRange) {
+      setError("Merci de sélectionner ta tranche d'âge.");
+      return;
+    }
     if (!consentAccepted) {
       setError("Veuillez accepter la politique de confidentialité pour continuer.");
       return;
@@ -141,6 +163,8 @@ export default function LandingPage() {
         body: JSON.stringify({
           nom: firstName,
           tel: `+33${phone}`,
+          profil_description: profileDescription,
+          tranche_age: ageRange,
           consentement: true, // Enregistrer le consentement
           date_consentement: new Date().toISOString(), // Date du consentement
         }),
@@ -167,6 +191,8 @@ export default function LandingPage() {
       });
       setFirstName("");
       setPhone("");
+      setProfileDescription("");
+      setAgeRange("");
       setConsentAccepted(false);
     } catch (error) {
       if (error instanceof Error) {
@@ -474,13 +500,13 @@ export default function LandingPage() {
         <div className="mt-16 mb-8">
           <div className="bg-gradient-to-r from-purple-900/30 via-yellow-500/30 to-purple-900/30 p-6 rounded-xl shadow-lg animate-pulse-custom">
             <h3 className="text-2xl font-bold text-yellow-400 mb-2">
-              🎁 Application très bientôt disponible...
+              🎁 On sélectionne 100 béta testeurs
             </h3>
             <p className="text-white text-lg md:text-xl font-semibold">
               
-              Une <span className="text-yellow-400">semaine gratuite</span> ça t&apos;intéresse ? 
+              Avoir l'application <span className="text-yellow-400"> en avant première</span> ça t&apos;intéresse ? 
               <br/>
-              On t&apos;enverra le code promo par SMS quand l&apos;app sort ! 
+              On t&apos;enverra un SMS si tu es sélectionné ! 
 
             </p>
           </div>
@@ -536,6 +562,42 @@ export default function LandingPage() {
             {!phone && (
               <Phone className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500" size={18} />
             )}
+          </div>
+
+          {/* Champ pour la description du profil */}
+          <div className="relative w-full max-w-xs">
+            <textarea
+              value={profileDescription}
+              onChange={(e) => {
+                const value = e.target.value.slice(0, 150);
+                setProfileDescription(value);
+              }}
+              placeholder="Décris ton profil en 2-3 phrases et ce que tu recherches comme emploi. On cherche tout type de profil !"
+              className="w-full bg-white text-black p-3 rounded-md h-24 resize-none"
+              maxLength={150}
+            />
+            <div className="text-right text-xs text-gray-400 mt-1">
+              {profileDescription.length}/150
+            </div>
+          </div>
+
+          {/* Sélecteur de tranche d'âge */}
+          <div className="relative w-full max-w-xs">
+            <select
+              value={ageRange}
+              onChange={(e) => setAgeRange(e.target.value)}
+              className="w-full bg-white text-black p-3 rounded-md appearance-none"
+            >
+              <option value="">Sélectionne ta tranche d'âge</option>
+              {ageRanges.map((range, index) => (
+                <option key={index} value={range}>{range}</option>
+              ))}
+            </select>
+            <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
           </div>
 
           {/* Ajout de la case à cocher pour le consentement */}
