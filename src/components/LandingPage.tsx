@@ -635,7 +635,7 @@ export default function LandingPage() {
               {loading ? (
                 <span className="loader ease-linear rounded-full border-4 border-t-4 border-yellow-500 h-5 w-5"></span>
               ) : (
-                "🚀 Je veux être prévenu.e !"
+                "🚀 Je veux tester en VIP !"
               )}
             </button>
           </div>
